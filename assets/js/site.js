@@ -72,6 +72,52 @@
     });
   });
 
+  /* ---------- Facebook reels: load the player only when the visitor taps play ---------- */
+  document.querySelectorAll("[data-fb]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var box = btn.parentNode;
+      var f = document.createElement("iframe");
+      f.src = "https://www.facebook.com/plugins/video.php?href=" + encodeURIComponent("https://www.facebook.com/reel/" + btn.getAttribute("data-fb") + "/") + "&show_text=false&autoplay=true&width=400";
+      f.allow = "autoplay; clipboard-write; encrypted-media; picture-in-picture; fullscreen";
+      f.allowFullscreen = true;
+      f.title = btn.getAttribute("data-title") || "Video";
+      box.innerHTML = "";
+      box.appendChild(f);
+    });
+  });
+
+  /* ---------- Instagram / LinkedIn posts: open the platform's own embed in a pop-up, on tap ---------- */
+  var dlg = null;
+  function openEmbed(btn) {
+    var src = btn.getAttribute("data-embed"), site = btn.getAttribute("data-site") || "the original site";
+    if (!window.HTMLDialogElement) { window.open(btn.getAttribute("data-open") || src, "_blank", "noopener"); return; }
+    if (!dlg) {
+      dlg = document.createElement("dialog");
+      dlg.className = "edlg";
+      dlg.innerHTML = '<div class="eh"><b></b><button type="button" aria-label="Close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div><iframe allowfullscreen></iframe><p class="ef"></p>';
+      document.body.appendChild(dlg);
+      dlg.querySelector("button").addEventListener("click", function () { dlg.close(); });
+      dlg.addEventListener("click", function (e) { if (e.target === dlg) dlg.close(); });
+      dlg.addEventListener("close", function () { dlg.querySelector("iframe").src = "about:blank"; });
+    }
+    dlg.querySelector("b").textContent = btn.getAttribute("data-title") || "Post";
+    dlg.querySelector("iframe").title = btn.getAttribute("data-title") || "Post";
+    dlg.querySelector("iframe").src = src;
+    dlg.querySelector(".ef").innerHTML = '<a href="' + (btn.getAttribute("data-open") || src) + '" target="_blank" rel="noopener">Open on ' + site + '</a>';
+    dlg.showModal();
+  }
+  document.querySelectorAll("[data-embed]").forEach(function (btn) { btn.addEventListener("click", function () { openEmbed(btn); }); });
+
+  /* ---------- Posts filter (All / Instagram / LinkedIn) ---------- */
+  var chips = document.querySelectorAll(".chip[data-filter]");
+  chips.forEach(function (chip) {
+    chip.addEventListener("click", function () {
+      var want = chip.getAttribute("data-filter");
+      chips.forEach(function (c) { c.setAttribute("aria-pressed", c === chip ? "true" : "false"); });
+      document.querySelectorAll(".pcard").forEach(function (card) { card.hidden = want !== "all" && card.getAttribute("data-platform") !== want; });
+    });
+  });
+
   /* ---------- Landing page: sticky "Book a call" bar on phones, hidden while the final form is on screen ---------- */
   var lpBar = document.querySelector(".lp-bar");
   if (lpBar) {
