@@ -13,9 +13,8 @@
 !/choose-your-blueprint/
 !/contact-us/
 
-# Custom domain — un-comment ONLY on DNS switch day (see NOTES.md "Going live").
-# Publishing CNAME earlier would make the github.io preview redirect to the old site.
-# !/CNAME
+# Custom domain (live since 2026-10-05): www.quantumsuccessblueprint.com
+!/CNAME
 
 # Never publish, even inside allowed folders
 **/NOTES.md
