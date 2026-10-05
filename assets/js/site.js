@@ -13,6 +13,77 @@
   var FORM_URL = "";
   var EMAIL = "hemani@quantumsuccessblueprint.com";
   var WHATSAPP = "61433430416";
+  /* Google Ads conversion tracking (optional). Paste both from Google Ads → Goals → Conversions,
+     e.g. ADS_ID = "AW-123456789", ADS_LABEL = "AbC-D_efG". Empty = no Google script is loaded at all.
+     A conversion is recorded when a visitor clicks a Calendly button, sends a form or taps WhatsApp. */
+  var ADS_ID = "";
+  var ADS_LABEL = "";
+
+  /* ---------- Ad source (utm_* from the Google Ads link) — kept for this visit only ---------- */
+  var UTM_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"];
+  var utm = {};
+  try {
+    var qs = new URLSearchParams(location.search);
+    UTM_KEYS.forEach(function (k) { if (qs.get(k)) utm[k] = qs.get(k); });
+    if (qs.get("gclid") && !utm.utm_source) { utm.utm_source = "google"; utm.utm_medium = "cpc"; }
+    if (Object.keys(utm).length) sessionStorage.setItem("qs-utm", JSON.stringify(utm));
+    else utm = JSON.parse(sessionStorage.getItem("qs-utm") || "{}") || {};
+  } catch (err) { utm = utm || {}; }
+  /* Calendly accepts utm_* and shows them with each booking */
+  if (Object.keys(utm).length) {
+    document.querySelectorAll('a[href*="calendly.com"]').forEach(function (a) {
+      try {
+        var u = new URL(a.href);
+        Object.keys(utm).forEach(function (k) { u.searchParams.set(k, utm[k]); });
+        a.href = u.toString();
+      } catch (err) { /* leave link as is */ }
+    });
+  }
+
+  /* ---------- Google Ads conversions (only when ADS_ID and ADS_LABEL are set) ---------- */
+  var convert = function () {};
+  if (ADS_ID && ADS_LABEL) {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { window.dataLayer.push(arguments); };
+    window.gtag("js", new Date());
+    window.gtag("config", ADS_ID);
+    var gs = document.createElement("script");
+    gs.async = true;
+    gs.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(ADS_ID);
+    document.head.appendChild(gs);
+    convert = function () { window.gtag("event", "conversion", { send_to: ADS_ID + "/" + ADS_LABEL }); };
+  }
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest('a[href*="calendly.com"], a[href*="wa.me"], [data-wa]');
+    if (a) convert();
+  });
+
+  /* ---------- Video: load the Vimeo player only when the visitor taps play ---------- */
+  document.querySelectorAll("[data-vimeo]").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var box = btn.parentNode;
+      var f = document.createElement("iframe");
+      f.src = "https://player.vimeo.com/video/" + btn.getAttribute("data-vimeo") + "?autoplay=1&title=0&byline=0&portrait=0&dnt=1";
+      f.allow = "autoplay; fullscreen; picture-in-picture";
+      f.allowFullscreen = true;
+      f.title = btn.getAttribute("data-title") || "Video";
+      box.innerHTML = "";
+      box.appendChild(f);
+    });
+  });
+
+  /* ---------- Landing page: sticky "Book a call" bar on phones, hidden while the final form is on screen ---------- */
+  var lpBar = document.querySelector(".lp-bar");
+  if (lpBar) {
+    var finalShown = false;
+    var start = document.getElementById("start");
+    if (start && "IntersectionObserver" in window) {
+      new IntersectionObserver(function (en) { finalShown = en[0].isIntersecting; place(); }, { threshold: 0.15 }).observe(start);
+    }
+    var place = function () { lpBar.classList.toggle("show", (window.scrollY || 0) > 520 && !finalShown); };
+    window.addEventListener("scroll", place, { passive: true });
+    place();
+  }
 
   document.querySelectorAll("[data-year]").forEach(function (el) { el.textContent = new Date().getFullYear(); });
 
@@ -103,6 +174,8 @@
         if (v) lines.push(label.replace("*", "").trim() + ": " + v);
       });
       var topic = form.getAttribute("data-enquiry");
+      if (Object.keys(utm).length) lines.push("Came from: " + UTM_KEYS.filter(function (k) { return utm[k]; }).map(function (k) { return k.replace("utm_", "") + "=" + utm[k]; }).join(", "));
+      convert();
       var body = lines.join("\n");
       if (FORM_URL) {
         window.open(FORM_URL, "_blank", "noopener");

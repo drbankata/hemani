@@ -258,7 +258,49 @@ a.ccard:hover b{color:var(--tide)}
 .wa svg{width:26px;height:26px}
 .wa span{display:none}
 
+/* ---------- landing page (/opportunity/ — Google Ads; no menu, one goal: book a call) ---------- */
+.lp-header .bar{min-height:72px}
+.lp-header .btn{display:none;min-height:46px;padding:0 20px;font-size:.95rem}
+.lp-sub{font:italic 380 clamp(1.5rem,4.2vw,2.1rem)/1.2 var(--display);color:var(--gold);margin:-8px 0 22px}
+.hero.lp h1{max-width:10.5ch;margin-bottom:14px}
+.hero.lp .cta-row{margin-top:24px}
+.hero.lp .honest{margin-top:28px}
+.hero.lp .arch img{object-position:50% 40%}
+.hero.lp .badge small{max-width:22ch}
+.vgrid{display:grid;gap:44px;align-items:center}
+.vbox{position:relative;width:100%;max-width:400px;margin-inline:auto;aspect-ratio:1080/1458;border-radius:30px;overflow:hidden;box-shadow:var(--shadow);background:var(--deep)}
+.vbox img,.vbox iframe{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border:0}
+.vplay{position:absolute;inset:0;display:grid;place-items:center;border:0;padding:0;cursor:pointer;color:#fff;background:linear-gradient(to top,rgba(9,42,48,.75) 0,rgba(9,42,48,.1) 45%,rgba(9,42,48,.15))}
+.vplay .ring{width:86px;height:86px;border-radius:50%;background:var(--sun);color:var(--deep);display:grid;place-items:center;box-shadow:0 0 0 10px rgba(228,196,125,.28);transition:transform .25s}
+.vplay:hover .ring{transform:scale(1.06)}
+.vplay .ring svg{width:30px;height:30px;margin-left:5px}
+.vplay small{position:absolute;left:0;right:0;bottom:22px;text-align:center;font:600 .98rem/1.3 var(--sans)}
+.honest{list-style:none;padding:0;margin:26px 0 0;display:grid;gap:12px}
+.honest li{display:flex;gap:12px;align-items:flex-start;color:var(--deep);font-weight:550}
+.honest li svg{flex:none;width:22px;height:22px;margin-top:3px;color:var(--gold)}
+.lp-bar{position:fixed;left:0;right:0;bottom:0;z-index:95;display:flex;gap:10px;align-items:center;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(246,248,247,.95);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-top:1px solid var(--line);transform:translateY(110%);transition:transform .3s}
+.lp-bar.show{transform:none}
+.lp-bar .btn{flex:1;min-height:50px;padding:0 16px}
+.lp-bar .wa-mini{flex:none;width:50px;height:50px;border-radius:50%;background:#1f8f55;color:#fff;display:grid;place-items:center}
+.lp-bar .wa-mini svg{width:26px;height:26px}
+.lp-page{padding-bottom:76px}
+.disclaim{background:var(--foam);padding:34px 0;font-size:.9rem;color:var(--muted)}
+.disclaim p{max-width:80ch;margin:0 0 .8em}
+.disclaim nav{display:flex;flex-wrap:wrap;gap:6px 22px}
+.sign{font:italic 400 1.35rem/1.3 var(--display);color:var(--gold)}
+
+/* legal pages */
+.legal{max-width:76ch}
+.legal h2{font-size:clamp(1.45rem,3vw,1.85rem);font-weight:450;margin:1.7em 0 .5em}
+.legal h2:first-child{margin-top:0}
+.legal ul{padding-left:1.25em;margin:0 0 1.1em}
+.legal li{margin-bottom:.4em}
+.legal .upper{font-weight:600;color:var(--deep)}
+.legal a{overflow-wrap:anywhere}
+.legal-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+
 @media (min-width:640px){
+  .lp-header .btn{display:inline-flex}
   .tgrid{grid-template-columns:repeat(2,1fr)}
   .feat{grid-template-columns:repeat(2,1fr)}
   .row2{grid-template-columns:1fr 1fr}
@@ -283,6 +325,9 @@ a.ccard:hover b{color:var(--tide)}
   .panel .pic{min-height:100%}
   .panel .txt{padding:48px 46px}
   .fgrid{grid-template-columns:1.4fr 1fr 1fr}
+  .vgrid{grid-template-columns:.85fr 1.15fr;gap:80px}
+  .lp-bar{display:none}
+  .lp-page{padding-bottom:0}
 }
 @media (min-width:1100px){
   .nav-toggle{display:none}
