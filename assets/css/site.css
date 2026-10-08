@@ -373,6 +373,7 @@ a.ccard:hover b{color:var(--tide)}
 .pgrid{display:grid;gap:18px;grid-template-columns:repeat(2,1fr)}
 .pcard{background:#fff;border-radius:22px;overflow:hidden;border:1px solid var(--line);display:flex;flex-direction:column}
 .pcard[hidden]{display:none}
+@media (min-width:1100px){.pgrid.five{grid-template-columns:repeat(5,1fr)}}
 .pthumb{position:relative;display:block;width:100%;aspect-ratio:1;padding:0;border:0;cursor:pointer;background:var(--foam);overflow:hidden}
 .pthumb img{width:100%;height:100%;object-fit:cover;transition:transform .8s cubic-bezier(.2,.7,.2,1)}
 .pthumb:hover img{transform:scale(1.04)}
