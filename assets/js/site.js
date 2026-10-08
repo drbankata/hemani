@@ -8,10 +8,14 @@
   doc.classList.add("js");
 
   /* ---------- SETTINGS (edit here) ----------
-     FORM_URL: paste a Google Form link to send enquiries there.
-     Leave empty ("") and the forms open the visitor's email app with the details filled in. */
-  var FORM_URL = "";
+     SEND_URL: forms are emailed straight to EMAIL through FormSubmit.co (free, no account).
+     The very first enquiry makes FormSubmit email an "Activate form" link to EMAIL; until that is
+     clicked (or if sending fails) the form falls back to opening the visitor's email app.
+     After activation, FormSubmit gives a random alias: it can replace EMAIL in SEND_URL to hide the address.
+     FORM_URL: a Google Form link instead (used only when SEND_URL is empty). Both empty = email app. */
   var EMAIL = "hemani@quantumsuccessblueprint.com";
+  var SEND_URL = "https://formsubmit.co/ajax/" + EMAIL;
+  var FORM_URL = "";
   var WHATSAPP = "61433430416";
   /* Google Ads conversion tracking (optional). Paste both from Google Ads → Goals → Conversions,
      e.g. ADS_ID = "AW-123456789", ADS_LABEL = "AbC-D_efG". Empty = no Google script is loaded at all.
@@ -209,6 +213,12 @@
   document.querySelectorAll("form[data-enquiry]").forEach(function (form) {
     var note = form.querySelector(".form-note");
     var say = function (m, bad) { if (note) { note.textContent = m; note.style.color = bad ? "#b3261e" : ""; } };
+    /* Hidden spam trap: people never see it, bots fill it in and are dropped by FormSubmit */
+    var trap = document.createElement("input");
+    trap.type = "text"; trap.name = "_honey"; trap.tabIndex = -1; trap.autocomplete = "off";
+    trap.setAttribute("aria-hidden", "true"); trap.style.cssText = "position:absolute;left:-9999px;width:1px;height:1px;opacity:0";
+    form.appendChild(trap);
+    var sendBtn = form.querySelector('[type="submit"]');
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!form.checkValidity()) { form.reportValidity(); return; }
@@ -223,12 +233,34 @@
       if (Object.keys(utm).length) lines.push("Came from: " + UTM_KEYS.filter(function (k) { return utm[k]; }).map(function (k) { return k.replace("utm_", "") + "=" + utm[k]; }).join(", "));
       convert();
       var body = lines.join("\n");
-      if (FORM_URL) {
+      var subject = "Quantum Success — " + topic;
+      var openMail = function () {
+        window.location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body + "\n\n(Sent from the website)");
+        say("Thank you — your email app should open with the details ready to send. Prefer WhatsApp? Use the green button.");
+      };
+      if (SEND_URL) {
+        if (trap.value) return;
+        var payload = { _subject: subject, _template: "table", _captcha: "false", Enquiry: topic };
+        lines.forEach(function (l) { var i = l.indexOf(": "); payload[l.slice(0, i)] = l.slice(i + 2); });
+        var em = d.get("email"); if (em) payload._replyto = em;
+        payload.Page = location.href.split("?")[0];
+        if (sendBtn) sendBtn.disabled = true;
+        say("Sending…");
+        fetch(SEND_URL, { method: "POST", headers: { "Content-Type": "application/json", "Accept": "application/json" }, body: JSON.stringify(payload) })
+          .then(function (r) { return r.json(); })
+          .then(function (res) {
+            if (res && String(res.success) === "true") {
+              form.reset();
+              say("Thank you — your details have been sent. Hemani will be in touch soon.");
+            } else { openMail(); }
+          })
+          .catch(openMail)
+          .then(function () { if (sendBtn) sendBtn.disabled = false; });
+      } else if (FORM_URL) {
         window.open(FORM_URL, "_blank", "noopener");
         say("Thank you — opening the enquiry form in a new tab.");
       } else {
-        window.location.href = "mailto:" + EMAIL + "?subject=" + encodeURIComponent("Quantum Success — " + topic) + "&body=" + encodeURIComponent(body + "\n\n(Sent from the website)");
-        say("Thank you — your email app should open with the details ready to send. Prefer WhatsApp? Use the green button.");
+        openMail();
       }
     });
     var wa = form.querySelector("[data-wa]");
