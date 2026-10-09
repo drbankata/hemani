@@ -239,7 +239,7 @@ a.ccard:hover b{color:var(--tide)}
 .closing .cta-row{justify-content:center}
 .closing .loop-mark{margin-inline:auto;color:var(--sun)}
 .site-footer{background:var(--deep-2);color:#b6cac8;padding:64px 0 28px;font-size:.96rem}
-.fgrid{display:grid;gap:34px;margin-bottom:40px}
+.fgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:34px;margin-bottom:40px}
 .flogo{height:58px;width:auto;margin-bottom:16px}
 .site-footer h4{font:500 1.2rem/1 var(--display);color:#fff;margin-bottom:16px}
 .site-footer a{color:#dbe7e6;text-decoration:none}
@@ -407,3 +407,5 @@ a.ccard:hover b{color:var(--tide)}
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
   .loop path{stroke-dashoffset:0}
 }
+/* narrow-screen safety: one-column grids must shrink to the screen, not widen to the longest item (see Bankata AI CLAUDE.md rule 12) */
+.fgrid>*{min-width:0;overflow-wrap:anywhere}
