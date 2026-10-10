@@ -425,4 +425,4 @@ a.ccard:hover b{color:var(--tide)}
 .made-by .mb:hover .mb-arrow, .made-by .mb:focus-visible .mb-arrow { transform: translate(3px, -3px); }
 .made-by .mb:focus-visible { outline: 2px solid var(--mb-accent); outline-offset: 4px; border-radius: 4px; }
 @media (prefers-reduced-motion: reduce) { .made-by .mb-name, .made-by .mb-arrow { transition: none; } }
-.made-by { --mb-line: rgba(255,255,255,.12); --mb-text: #dbe7e6; --mb-muted: #86a09e; --mb-accent: var(--sun); --mb-rest: rgba(228,196,125,.45); --mb-pre-font: var(--display); --mb-pre-style: italic; --mb-pre-size: 1.3rem; --mb-name-font: var(--display); --mb-name-weight: 500; --mb-name-size: 1.25rem; --mb-name-color: var(--sun); --mb-sub-font: var(--sans); --mb-cred-font: var(--sans); }
+.made-by { --mb-line: rgba(255,255,255,.12); --mb-text: #dbe7e6; --mb-muted: #91a9a7; --mb-accent: var(--sun); --mb-rest: rgba(228,196,125,.45); --mb-pre-font: var(--display); --mb-pre-style: italic; --mb-pre-size: 1.3rem; --mb-name-font: var(--display); --mb-name-weight: 500; --mb-name-size: 1.25rem; --mb-name-color: var(--sun); --mb-sub-font: var(--sans); --mb-cred-font: var(--sans); }
