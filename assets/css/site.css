@@ -96,8 +96,8 @@ strong{font-weight:650;color:var(--deep)}
 .arch img{width:100%;height:100%;object-fit:cover;object-position:52% 60%;transform-origin:58% 82%;animation:breathe 26s ease-in-out infinite alternate}
 .arch::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
 @keyframes breathe{from{transform:scale(1.18)}to{transform:scale(1.3)}}
-.loop{position:absolute;left:50%;top:-8px;width:116%;transform:translateX(-50%);color:var(--gold);pointer-events:none;overflow:visible;z-index:3;filter:drop-shadow(0 1px 0 rgba(255,255,255,.7))}
-.loop path{fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 3.2s .3s cubic-bezier(.65,0,.35,1) forwards}
+.loop{position:absolute;left:50%;top:-22px;width:82%;transform:translateX(-50%);color:var(--gold);pointer-events:none;overflow:visible;z-index:3;filter:drop-shadow(0 1px 0 rgba(255,255,255,.7))}
+.loop path{fill:none;stroke:currentColor;stroke-width:.6;stroke-linecap:round;stroke-dasharray:1;stroke-dashoffset:1;animation:draw 3.2s .3s cubic-bezier(.65,0,.35,1) forwards}
 @keyframes draw{to{stroke-dashoffset:0}}
 .badge{position:absolute;z-index:4;left:-6px;bottom:34px;display:flex;align-items:center;gap:14px;background:#fff;border-radius:999px;padding:8px 22px 8px 8px;box-shadow:0 20px 40px -18px rgba(9,42,48,.5);max-width:92%}
 .badge img{width:62px;height:62px;border-radius:50%;object-fit:cover;object-position:top}
@@ -419,3 +419,21 @@ a.ccard:hover b{color:var(--tide)}
 .made-by .mb:focus-visible { outline: 2px solid var(--mb-accent); outline-offset: 4px; border-radius: 4px; }
 @media (prefers-reduced-motion: reduce) { .made-by .mb-name, .made-by .mb-arrow { transition: none; } }
 .made-by { --mb-line: rgba(255,255,255,.12); --mb-text: #dbe7e6; --mb-muted: #91a9a7; --mb-accent: var(--sun); --mb-rest: rgba(228,196,125,.45); --mb-pre-font: var(--display); --mb-pre-style: italic; --mb-pre-size: 1.3rem; --mb-name-font: var(--display); --mb-name-weight: 500; --mb-name-size: 1.25rem; --mb-name-color: var(--sun); --mb-sub-font: var(--sans); --mb-cred-font: var(--sans); }
+
+/* Client round 2 (2026-10-24) */
+.hero h1.qh{max-width:none;letter-spacing:-.02em;font-size:clamp(1.7rem,3.6vw,2.7rem);line-height:1.15}
+.hero h1.qh .qby{display:block;margin-top:10px;font:italic 400 1.1rem/1.3 var(--display);color:var(--gold)}
+.sign-r{text-align:right;max-width:20ch;margin:-6px auto 20px}
+.closing .sign-r{color:var(--sun)}
+.lgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:16px;margin-bottom:8px}
+.lcard{display:flex;flex-direction:column;justify-content:space-between;gap:18px;min-width:0;background:#fff;border-radius:24px;padding:24px;box-shadow:var(--shadow);text-decoration:none;color:var(--deep);overflow-wrap:anywhere}
+.lcard b{font:450 1.2rem/1.3 var(--display)}
+.lcard .go{font-weight:650;color:var(--tide);font-size:.95rem}
+.lcard:hover .go{text-decoration:underline}
+@media (min-width:640px){.lgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:900px){.lgrid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.privacy-end{margin:14px 0 0}
+.gwrap{position:relative;max-width:520px;width:100%;margin-inline:auto}
+.gwrap .arch{max-width:none}
+.gwrap .gift{display:block;right:8px;top:14%}
+@media (min-width:900px){.gwrap .gift{right:-24px}}
