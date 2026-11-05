@@ -251,7 +251,7 @@
           .then(function (res) {
             if (res && String(res.success) === "true") {
               form.reset();
-              say("Thank you — your details have been sent. Hemani will be in touch soon.");
+              say("Thank you — your details have been sent. We will be in touch soon.");
             } else { openMail(); }
           })
           .catch(openMail)
