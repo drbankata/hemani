@@ -460,3 +460,12 @@ a.ccard:hover b{color:var(--tide)}
 .feature .plat-tag{font-weight:650;color:var(--gold);font-size:.95rem}
 .feature .go{font-weight:650;color:var(--tide);font-size:.95rem}
 .feature:hover .go{text-decoration:underline}
+
+/* Narrow phones with large text: grid and flex columns may shrink and long words wrap, so nothing runs past the right edge
+   (studio mobile rule 1, owner's yes 2026-11-11). Zero-specificity :where() so any site rule that sets a min-width still wins. */
+@media (max-width: 480px) {
+  :where(header, main, footer) :where(*:not(img, svg, video, iframe, canvas, picture, button)) { min-width: 0; }
+  :where(main) :where(input, select, textarea) { max-width: 100%; }
+  :where(main, footer) :where(h1, h2, h3, h4, h5, h6, p, li, dd, dt, figcaption, label, blockquote, small, b, strong) { overflow-wrap: break-word; }
+  :where(main) :where(a[class*="btn"], button) { max-width: 100%; white-space: normal; }
+}
