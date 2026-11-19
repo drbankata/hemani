@@ -242,7 +242,7 @@ a.ccard:hover b{color:var(--tide)}
 .site-footer{background:var(--deep-2);color:#b6cac8;padding:64px 0 28px;font-size:.96rem}
 .fgrid{display:grid;grid-template-columns:minmax(0,1fr);gap:34px;margin-bottom:40px}
 .flogo{height:96px;max-width:100%;width:auto;margin-bottom:16px}
-.site-footer h4{font:500 1.2rem/1 var(--display);color:#fff;margin-bottom:16px}
+.site-footer h2,.site-footer h4{font:500 1.2rem/1 var(--display);color:#fff;margin-bottom:16px}
 .site-footer a{color:#dbe7e6;text-decoration:none}
 .site-footer a:hover{color:var(--sun)}
 .site-footer ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}

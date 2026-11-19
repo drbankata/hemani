@@ -21,6 +21,10 @@
 
 # Custom domain (live since 2026-10-05): www.quantumsuccessblueprint.com
 !/CNAME
+!/llms.txt
+!/llms-full.txt
+# IndexNow key file (public by design; Bing and other engines read it)
+!/654745625c22d153a63a39439cdf8a65.txt
 
 # Never publish, even inside allowed folders
 **/NOTES.md
